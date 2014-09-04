@@ -8,7 +8,7 @@ int random (int min, int max) {
 	hi_num = max_num+1; // this is done to include max_num in output.
 	}
 	else { 
-	low_num=max_num+1;// this is done to include max_num in output.
+	low_num=max_num+1; // this is done to include max_num in output.
 	hi_num=min_num;
 	}
 	srand(time(NULL));
@@ -17,6 +17,7 @@ int random (int min, int max) {
 }
 
 int CollisionCheck(SDL_Rect A, SDL_Rect B) {
+
     //The sides of the rectangles
 	unsigned int LeftA, LeftB;
 	unsigned int RightA, RightB;
@@ -68,12 +69,15 @@ switch (event.key.keysym.sym) {
 	}
 while(collision != 0) {
 	SDL_Rect r2 = {590, random(0, 430), 50, 50};
+	collision = CollisionCheck(r, r2);
 	
 }
 SDL_SetRenderDrawColor(renderer, 0xFF,0xFF,0xFF,0x00);
 SDL_RenderFillRect(renderer, NULL);
 SDL_SetRenderDrawColor(renderer, 0x00,0xFF,0x00,0x00);
 SDL_RenderFillRect(renderer, &r);
+SDL_SetRenderDrawColor(renderer, 0xFF,0x00,0x00,0x00);
+SDL_RenderFillRect(renderer, &r2);
 SDL_RenderPresent(renderer);
 	}
 
