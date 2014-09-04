@@ -16,7 +16,7 @@ int random (int min, int max) {
 	return result;
 }
 
-bool CollisionCheck(SDL_Rect A, SDL_Rect B) {
+int CollisionCheck(SDL_Rect A, SDL_Rect B) {
     //The sides of the rectangles
 	unsigned int LeftA, LeftB;
 	unsigned int RightA, RightB;
@@ -36,9 +36,9 @@ bool CollisionCheck(SDL_Rect A, SDL_Rect B) {
 	BottomB = B.y + B.h;
 
 	if( (BottomA <= TopB) || (TopA >= BottomB) || (RightA <= LeftB) || (LeftA >= RightB) )
-		return false; 
+		return 0; 
 	else
-		return true;
+		return 1;
 }
 
 int main (int argc, char* args[]) {
@@ -50,7 +50,8 @@ SDL_Window* window = SDL_CreateWindow("Hello World!", SDL_WINDOWPOS_UNDEFINED, S
 
 //Setup
 
-SDL_Rect r = { 200,200, 50, 50 };
+int collision = 1;
+SDL_Rect r = {200, 200, 50, 50};
 SDL_Event event;
 while (1) {
 while (SDL_PollEvent(&event) == 0);
@@ -65,9 +66,13 @@ switch (event.key.keysym.sym) {
 		r.y += 10;
 		}
 	}
+while(collision != 0) {
+	SDL_Rect r2 = {590, random(0, 430), 50, 50};
+	
+}
 SDL_SetRenderDrawColor(renderer, 0xFF,0xFF,0xFF,0x00);
 SDL_RenderFillRect(renderer, NULL);
-SDL_SetRenderDrawColor(renderer, 0x00,0x00,0xFF,0x00);
+SDL_SetRenderDrawColor(renderer, 0x00,0xFF,0x00,0x00);
 SDL_RenderFillRect(renderer, &r);
 SDL_RenderPresent(renderer);
 	}
