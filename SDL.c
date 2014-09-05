@@ -41,9 +41,9 @@ int CollisionCheck(SDL_Rect A, SDL_Rect B) {
 		return 1;
 }
 
-/*void move(SDL_Rect A, int step) {
+void move(SDL_Rect A, int step) {
 	A->x = A->x - step;
-}*/
+}
 
 int main (int argc, char* args[]) {
 
@@ -68,7 +68,7 @@ int main (int argc, char* args[]) {
 	while (1) {
 	timer2 = SDL_GetTicks();
 		if(timer2 >= timer1 + 100){
-			r2.x -= step;
+			move(r, step);
 			timer1 = timer2;
 		}
 		collision = CollisionCheck(r, r2);
