@@ -35,15 +35,15 @@ int CollisionCheck(SDL_Rect A, SDL_Rect B) {
 	TopB = B.y;
 	BottomB = B.y + B.h;
 
-	if((BottomA <= TopB && (RightA <= LeftB || LeftA >= RightB)) || (TopA >= BottomB && (RightA <= LeftB || LeftA >= RightB)))
+	if((BottomA <= TopB || TopA >= BottomB || RightA <= LeftB || LeftA >= RightB))
 		return 0; 
 	else
 		return 1;
 }
 
-void move(SDL_Rect A, int step) {
-	A.x = A.x - step;
-}
+/*void move(SDL_Rect A, int step) {
+	A->x = A->x - step;
+}*/
 
 int main (int argc, char* args[]) {
 
@@ -59,14 +59,36 @@ int main (int argc, char* args[]) {
 	int timer1 = 0;
 	int timer2 = 0;
 	int points = 0;
-	int step = 10;
+	int step = 5;
 	int n = 1;
 	int collision = 1;
 	SDL_Rect r = {270, 390, 50, 50};
 	SDL_Rect r2 = {590, randomNumber(0, 430), 20, 50};
 	SDL_Event event;
 	while (1) {
-	while (SDL_PollEvent(&event) == 0);
+	timer2 = SDL_GetTicks();
+		if(timer2 >= timer1 + 100){
+			r2.x -= step;
+			timer1 = timer2;
+		}
+		collision = CollisionCheck(r, r2);
+		if(collision == 1)
+			break;
+		if(r2.x <= 5) {
+			step = -step;
+			points++;
+			r2.y = randomNumber(0, 430);
+		}
+		if(r2.x >= 590) {
+			step = -step;
+			points++;
+			r2.y = randomNumber(0, 430);
+		}
+		if(points >= n*10) {
+			step = (n+1)*step;
+			n++;
+		}
+	if (SDL_PollEvent(&event) == 0);
 	if (event.type == SDL_QUIT) {
 		break;
 	}
@@ -79,32 +101,13 @@ int main (int argc, char* args[]) {
 			r.y -= 10;
 			break;
 			}
-		}
-	timer1 = SDL_GetTicks();
-	if(collision != 0) {
-		timer2 = SDL_GetTicks();
-		if(timer2 >= timer1 + 100)
-			move(r2, step);
-		collision = CollisionCheck(r, r2);
-		if(r2.x == 5) {
-			step = -step;
-			points++;
-			r2.y = randomNumber(0, 430);
-		}
-		if(r2.x == 640) {
-			step = 10;
-			points++;
-			r2.y = randomNumber(0, 430);
-		}
-		if(points >= n*10) {
-			step = (n+1)*step;
-			n++;
-		}
-	}
-	else
-		break;
+		
+	
+}
+	/*else
+		break;*/
 
-	SDL_SetRenderDrawColor(renderer, 0xFF,0xFF,0xFF,0x00);
+	SDL_SetRenderDrawColor(renderer, 0x00,0x00,0x00,0x00);
 	SDL_RenderFillRect(renderer, NULL);
 	SDL_SetRenderDrawColor(renderer, 0x00,0xFF,0x00,0x00);
 	SDL_RenderFillRect(renderer, &r);
@@ -118,4 +121,5 @@ int main (int argc, char* args[]) {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+	return 0;
 }
