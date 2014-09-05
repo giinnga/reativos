@@ -62,7 +62,7 @@ int main (int argc, char* args[]) {
 	int n = 1;
 	int collision = 1;
 	SDL_Rect r = {270, 390, 50, 50};
-	SDL_Rect r2 = {590, random(0, 430), 50, 20};
+	SDL_Rect r2 = {590, random(0, 430), 20, 50};
 	SDL_Event event;
 	while (1) {
 	while (SDL_PollEvent(&event) == 0);
@@ -86,10 +86,12 @@ int main (int argc, char* args[]) {
 		if(r2->x == 5) {
 			step = -step;
 			points++;
+			r2->y = random(0, 430);
 		}
 		if(r2->x == 640) {
 			step = 10;
 			points++;
+			r2->y = random(0, 430);
 		}
 		if(points >= n*10) {
 			step = (n+1)*step;
