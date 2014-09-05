@@ -3,13 +3,13 @@
 
 int random (int min, int max) {
 	int result=0,low_num=0,hi_num=0;
-	if(min_num<max_num) {
-		low_num = min_num;
-		hi_num = max_num+1; // this is done to include max_num in output.
+	if(min<max) {
+		low_num = min;
+		hi_num = max+1; // this is done to include max_num in output.
 	}
 	else { 
-		low_num=max_num+1; // this is done to include max_num in output.
-		hi_num=min_num;
+		low_num=max+1; // this is done to include max_num in output.
+		hi_num=min;
 	}
 	result = (rand()%(hi_num-low_num))+low_num;
 	return result;
@@ -83,15 +83,15 @@ int main (int argc, char* args[]) {
 		if(timer2 >= timer1 + 100)
 			move(r2, step);
 		collision = CollisionCheck(r, r2);
-		if(r2->x == 5) {
+		if(r2.x == 5) {
 			step = -step;
 			points++;
-			r2->y = random(0, 430);
+			r2.y = random(0, 430);
 		}
-		if(r2->x == 640) {
+		if(r2.x == 640) {
 			step = 10;
 			points++;
-			r2->y = random(0, 430);
+			r2.y = random(0, 430);
 		}
 		if(points >= n*10) {
 			step = (n+1)*step;
