@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <time.h>
 
-int random (int min, int max) {
+int randomNumber (int min, int max) {
 	int result=0,low_num=0,hi_num=0;
 	if(min<max) {
 		low_num = min;
@@ -51,6 +51,7 @@ int main (int argc, char* args[]) {
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_Window* window = SDL_CreateWindow("AVOID!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
+	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
 	//Setup
 
@@ -62,7 +63,7 @@ int main (int argc, char* args[]) {
 	int n = 1;
 	int collision = 1;
 	SDL_Rect r = {270, 390, 50, 50};
-	SDL_Rect r2 = {590, random(0, 430), 20, 50};
+	SDL_Rect r2 = {590, randomNumber(0, 430), 20, 50};
 	SDL_Event event;
 	while (1) {
 	while (SDL_PollEvent(&event) == 0);
@@ -86,12 +87,12 @@ int main (int argc, char* args[]) {
 		if(r2.x == 5) {
 			step = -step;
 			points++;
-			r2.y = random(0, 430);
+			r2.y = randomNumber(0, 430);
 		}
 		if(r2.x == 640) {
 			step = 10;
 			points++;
-			r2.y = random(0, 430);
+			r2.y = randomNumber(0, 430);
 		}
 		if(points >= n*10) {
 			step = (n+1)*step;
