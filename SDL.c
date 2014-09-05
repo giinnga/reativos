@@ -73,7 +73,7 @@ int main (int argc, char* args[]) {
 	else if (event.type == SDL_KEYDOWN) {
 	switch (event.key.keysym.sym) { 
 		case SDLK_UP:
-			r.y ­= 10;
+			r.y +­= 10;
 		case SDLK_DOWN:
 			r.y += 10;
 			}
