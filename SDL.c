@@ -74,8 +74,10 @@ int main (int argc, char* args[]) {
 	switch (event.key.keysym.sym) { 
 		case SDLK_UP:
 			r.y +­= 10;
+			break;
 		case SDLK_DOWN:
-			r.y += 10;
+			r.y -= 10;
+			break;
 			}
 		}
 	timer1 = SDL_GetTicks();
