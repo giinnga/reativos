@@ -35,14 +35,14 @@ int CollisionCheck(SDL_Rect A, SDL_Rect B) {
 	TopB = B.y;
 	BottomB = B.y + B.h;
 
-	if((BottomA <= TopB && (RightA <= LeftB || LeftA >= RightB)) || (TopA >= BottomB && (RightA <= LeftB || LeftA >= RightB)))
+	if((BottomA <= TopB || TopA >= BottomB || RightA <= LeftB || LeftA >= RightB))
 		return 0; 
 	else
 		return 1;
 }
 
 void move(SDL_Rect A, int step) {
-	A.x = A.x - step;
+	A->x = A->x - step;
 }
 
 void rotina(int timer1, int timer2, int *step, SDL_Rect r, SDL_Rect r2, int *points) {
@@ -75,7 +75,7 @@ int main (int argc, char* args[]) {
 	int timer1 = SDL_GetTicks();
 	int timer2 = 0;
 	int points = 0;
-	int step = 10;
+	int step = 5;
 	int n = 1;
 	int collision = 1;
 	SDL_Rect r = {270, 390, 50, 50};
@@ -96,22 +96,6 @@ int main (int argc, char* args[]) {
 			break;
 			}
 	if(collision != 0) {
-		/*timer2 = SDL_GetTicks();
-		if(timer2 >= timer1 + 100) {
-			move(r2, step);
-			timer1 = timer2;
-		}
-		//collision = CollisionCheck(r, r2);
-		if(r2.x == 5) {
-			step = -step;
-			points++;
-			r2.y = randomNumber(0, 430);
-		}
-		if(r2.x == 640) {
-			step = step;
-			points++;
-			r2.y = randomNumber(0, 430);
-		}*/
 		rotina(timer1, timer2, &step, r, r2, &points);
 		collision = CollisionCheck(r, r2);
 		if(points >= n*10) {
@@ -122,8 +106,11 @@ int main (int argc, char* args[]) {
 	}
 	else
 		break;
+	}
+	/*else
+		break;*/
 
-	SDL_SetRenderDrawColor(renderer, 0xFF,0xFF,0xFF,0x00);
+	SDL_SetRenderDrawColor(renderer, 0x00,0x00,0x00,0x00);
 	SDL_RenderFillRect(renderer, NULL);
 	SDL_SetRenderDrawColor(renderer, 0x00,0xFF,0x00,0x00);
 	SDL_RenderFillRect(renderer, &r);
@@ -137,4 +124,5 @@ int main (int argc, char* args[]) {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+	return 0;
 }
