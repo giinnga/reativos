@@ -45,17 +45,17 @@ void move(SDL_Rect A, int step) {
 	A->x = A->x - step;
 }
 
-void rotina(int timer1, int timer2, int *step, SDL_Rect r, SDL_Rect r2, int *points) {
+void rotina(int timer1, int timer2, int *step, SDL_Rect r, SDL_Rect r2, int *points, int n) {
 	timer2 = SDL_GetTicks();
 	if(timer2 >= timer1 + 100)
 		move(r2, step);
 	if(r2.x == 5) {
-		*step = - *step
+		*step = -5*(n+1);
 		*points++;
 		r2.y = randomNumber(0, 430);
 	}
 	if(r2.x == 640) {
-		*step = - *step;
+		*step = 5*(n+1);
 		*points++;
 		r2.y = randomNumber(0, 430);
 	}
@@ -80,14 +80,14 @@ int main (int argc, char* args[]) {
 	int collision = 1;
 	SDL_Rect r = {270, 390, 50, 50};
 	SDL_Rect r2 = {590, randomNumber(0, 430), 20, 50};
-	SDL_Event event;
+	SDL_Event e;
 	while (1) {
-	while (SDL_PollEvent(&event) == 0);
-	if (event.type == SDL_QUIT) {
+	while (SDL_PollEvent(&e) == 1){
+	if (e.type == SDL_QUIT) {
 		break;
 	}
-	else if (event.type == SDL_KEYDOWN) {
-	switch (event.key.keysym.sym) { 
+	else if (e.type == SDL_KEYDOWN) {
+	switch (e.key.keysym.sym) { 
 		case SDLK_UP:
 			r.y +­= 10;
 			break;
@@ -95,14 +95,14 @@ int main (int argc, char* args[]) {
 			r.y -= 10;
 			break;
 			}
+		}
 	if(collision != 0) {
-		rotina(timer1, timer2, &step, r, r2, &points);
+		rotina(timer1, timer2, &step, r, r2, &points, n);
 		collision = CollisionCheck(r, r2);
 		if(points >= n*10) {
 			step = (n+1)*step;
 			n++;
 		}
-	}
 	}
 	else
 		break;
@@ -122,4 +122,5 @@ int main (int argc, char* args[]) {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 	return 0;
+}
 }
