@@ -107,8 +107,6 @@ int main (int argc, char* args[]) {
 	else
 		break;
 	}
-	/*else
-		break;*/
 
 	SDL_SetRenderDrawColor(renderer, 0x00,0x00,0x00,0x00);
 	SDL_RenderFillRect(renderer, NULL);
@@ -117,7 +115,6 @@ int main (int argc, char* args[]) {
 	SDL_SetRenderDrawColor(renderer, 0xFF,0x00,0x00,0x00);
 	SDL_RenderFillRect(renderer, &r2);
 	SDL_RenderPresent(renderer);
-	}
 
 //Finalization
 
