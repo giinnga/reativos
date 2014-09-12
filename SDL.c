@@ -45,6 +45,22 @@ void move(SDL_Rect A, int step) {
 	A.x = A.x - step;
 }
 
+void rotina(int timer1, int timer2, int *step, SDL_Rect r, SDL_Rect r2, int *points) {
+	timer2 = SDL_GetTicks();
+	if(timer2 >= timer1 + 100)
+		move(r2, step);
+	if(r2.x == 5) {
+		*step = - *step
+		*points++;
+		r2.y = randomNumber(0, 430);
+	}
+	if(r2.x == 640) {
+		*step = - *step;
+		*points++;
+		r2.y = randomNumber(0, 430);
+	}
+}
+
 int main (int argc, char* args[]) {
 
 	//Inicialization
@@ -56,7 +72,7 @@ int main (int argc, char* args[]) {
 	//Setup
 
 	srand(time(NULL));
-	int timer1 = 0;
+	int timer1 = SDL_GetTicks();
 	int timer2 = 0;
 	int points = 0;
 	int step = 10;
@@ -79,27 +95,30 @@ int main (int argc, char* args[]) {
 			r.y -= 10;
 			break;
 			}
-		}
-	timer1 = SDL_GetTicks();
 	if(collision != 0) {
-		timer2 = SDL_GetTicks();
-		if(timer2 >= timer1 + 100)
+		/*timer2 = SDL_GetTicks();
+		if(timer2 >= timer1 + 100) {
 			move(r2, step);
-		collision = CollisionCheck(r, r2);
+			timer1 = timer2;
+		}
+		//collision = CollisionCheck(r, r2);
 		if(r2.x == 5) {
 			step = -step;
 			points++;
 			r2.y = randomNumber(0, 430);
 		}
 		if(r2.x == 640) {
-			step = 10;
+			step = step;
 			points++;
 			r2.y = randomNumber(0, 430);
-		}
+		}*/
+		rotina(timer1, timer2, &step, r, r2, &points);
+		collision = CollisionCheck(r, r2);
 		if(points >= n*10) {
 			step = (n+1)*step;
 			n++;
 		}
+	}
 	}
 	else
 		break;
