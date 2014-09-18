@@ -42,7 +42,7 @@ int CollisionCheck(SDL_Rect A, SDL_Rect B) {
 }
 
 void move(SDL_Rect A, int step) {
-	A->x = A->x - step;
+	A.x = A.x - step;
 }
 
 void rotina(int timer1, int timer2, int *step, SDL_Rect r, SDL_Rect r2, int *points, int n) {
@@ -96,17 +96,17 @@ int main (int argc, char* args[]) {
 			break;
 			}
 		}
+	}
 	if(collision != 0) {
 		rotina(timer1, timer2, &step, r, r2, &points, n);
 		collision = CollisionCheck(r, r2);
-		if(points >= n*10) {
-			step = (n+1)*step;
-			n++;
+		//if(points >= n*10) {
+		//	step = (n+1)*step;
+		//	n++;
 		}
 	}
 	else
 		break;
-	}
 
 	SDL_SetRenderDrawColor(renderer, 0x00,0x00,0x00,0x00);
 	SDL_RenderFillRect(renderer, NULL);
