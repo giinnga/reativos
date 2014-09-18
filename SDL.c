@@ -42,13 +42,13 @@ int CollisionCheck(SDL_Rect A, SDL_Rect B) {
 }
 
 void move(SDL_Rect A, int step) {
-	A.x = A.x - step;
+	A.x = A.x - *step;
 }
 
 void rotina(int timer1, int timer2, int *step, SDL_Rect r, SDL_Rect r2, int *points, int n) {
 	timer2 = SDL_GetTicks();
 	if(timer2 >= timer1 + 100)
-		move(r2, step);
+		move(r2, *step);
 	if(r2.x == 5) {
 		*step = -5*(n+1);
 		*points++;
@@ -122,5 +122,4 @@ int main (int argc, char* args[]) {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 	return 0;
-}
 }
