@@ -42,7 +42,7 @@ int CollisionCheck(SDL_Rect A, SDL_Rect B) {
 }
 
 void move(SDL_Rect A, int step) {
-	A.x = A.x - *step;
+	A.x = A.x - step;
 }
 
 void rotina(int timer1, int timer2, int *step, SDL_Rect r, SDL_Rect r2, int *points, int n) {
