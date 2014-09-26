@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <time.h>
+#include <stdlib.h>
 
 int randomNumber (int min, int max) {
 	int result=0,low_num=0,hi_num=0;
@@ -41,26 +42,6 @@ int CollisionCheck(SDL_Rect A, SDL_Rect B) {
 		return 1;
 }
 
-void move(SDL_Rect A, int step) {
-	A.x = A.x - step;
-}
-
-void rotina(int timer1, int timer2, int *step, SDL_Rect r, SDL_Rect r2, int *points, int n) {
-	timer2 = SDL_GetTicks();
-	if(timer2 >= timer1 + 100)
-		move(r2, *step);
-	if(r2.x == 5) {
-		*step = -5*(n+1);
-		*points++;
-		r2.y = randomNumber(0, 430);
-	}
-	if(r2.x == 640) {
-		*step = 5*(n+1);
-		*points++;
-		r2.y = randomNumber(0, 430);
-	}
-}
-
 int main (int argc, char* args[]) {
 
 	//Inicialization
@@ -72,49 +53,76 @@ int main (int argc, char* args[]) {
 	//Setup
 
 	srand(time(NULL));
+	int y1 = randomNumber(0,430), y2 = randomNumber(0,430);
+	int timer_points = 0;
 	int timer1 = SDL_GetTicks();
 	int timer2 = 0;
 	int points = 0;
-	int step = 5;
+	int step = 3;
 	int n = 1;
-	int collision = 1;
-	SDL_Rect r = {270, 390, 50, 50};
-	SDL_Rect r2 = {590, randomNumber(0, 430), 20, 50};
+	int x = 1;
+	int collision = 0;
+	SDL_Rect r = {290, 390, 50, 50};
+	SDL_Rect r2 = {590, randomNumber(0, 430), 20, 60};
+	SDL_Rect r3 = {-20, randomNumber(0, 430), 20, 60};
 	SDL_Event e;
-	while (1) {
-	while (SDL_PollEvent(&e) == 1){
-	if (e.type == SDL_QUIT) {
-		break;
+	if(y1 <= y2 - 70 && y1 >= y2 + 70) {
+		y1 = randomNumber(0,430);
 	}
-	else if (e.type == SDL_KEYDOWN) {
-	switch (e.key.keysym.sym) { 
-		case SDLK_UP:
-			r.y +­= 10;
-			break;
-		case SDLK_DOWN:
-			r.y -= 10;
-			break;
+	while (1) {
+		if(SDL_PollEvent(&e)){
+			if (e.type == SDL_QUIT) {
+				break;
+			}
+			else if (e.type == SDL_KEYDOWN) {
+				switch (e.key.keysym.sym) { 
+					case SDLK_UP:
+						r.y -= 15;
+						break;
+					case SDLK_DOWN:
+						r.y += 15;
+						break;
+				}
 			}
 		}
-	}
-	if(collision != 0) {
-		rotina(timer1, timer2, &step, r, r2, &points, n);
-		collision = CollisionCheck(r, r2);
-		//if(points >= n*10) {
-		//	step = (n+1)*step;
-		//	n++;
+		if(collision == 0) {
+			timer2 = SDL_GetTicks();
+			timer_points = SDL_GetTicks();
+			if (timer2 >= timer1 + 10) {
+				r2.x -= step;
+				r3.x += step;
+				collision = CollisionCheck(r, r2);
+				collision = CollisionCheck(r, r3);
+				timer1 = timer2;
+			}
+			if (r2.x <= -20 && r3.x >= 650) {
+				r2.y = randomNumber (0, 430);
+				r3.y = randomNumber (0, 430);
+				if(r2.y <= r3.y - 70 && r2.y >= r3.y + 70)
+					r3.y = randomNumber (0,430);
+				step = -randomNumber(3,4);
+			}
+			else if (r2.x >= 650 && r3.x <= -20) {
+				r2.y = randomNumber (0, 430);
+				r3.y = randomNumber (0, 430);
+				if(r2.y <= r3.y - 70 && r2.y >= r3.y + 70)
+					r3.y = randomNumber (0,430);
+				step = randomNumber(3,4);
+			}
 		}
-	}
-	else
-		break;
+		else
+			break;
 
-	SDL_SetRenderDrawColor(renderer, 0x00,0x00,0x00,0x00);
-	SDL_RenderFillRect(renderer, NULL);
-	SDL_SetRenderDrawColor(renderer, 0x00,0xFF,0x00,0x00);
-	SDL_RenderFillRect(renderer, &r);
-	SDL_SetRenderDrawColor(renderer, 0xFF,0x00,0x00,0x00);
-	SDL_RenderFillRect(renderer, &r2);
-	SDL_RenderPresent(renderer);
+		SDL_SetRenderDrawColor(renderer, 0x00,0x00,0x00,0x00);
+		SDL_RenderFillRect(renderer, NULL);
+		SDL_SetRenderDrawColor(renderer, 0x00,0xFF,0x00,0x00);
+		SDL_RenderFillRect(renderer, &r);
+		SDL_SetRenderDrawColor(renderer, 0xFF,0x00,0x00,0x00);
+		SDL_RenderFillRect(renderer, &r2);
+		SDL_SetRenderDrawColor(renderer, 0x00,0x00,0xFF,0x00);
+		SDL_RenderFillRect(renderer, &r3);
+		SDL_RenderPresent(renderer);
+	}
 
 //Finalization
 
