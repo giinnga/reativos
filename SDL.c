@@ -61,7 +61,7 @@ int main (int argc, char* args[]) {
 	int step = 3;
 	int n = 1;
 	int x = 1;
-	int collision = 0;
+	int collision1 = 0, collision2 = 0;
 	SDL_Rect r = {290, 390, 50, 50};
 	SDL_Rect r2 = {590, randomNumber(0, 430), 20, 60};
 	SDL_Rect r3 = {-20, randomNumber(0, 430), 20, 60};
@@ -85,14 +85,14 @@ int main (int argc, char* args[]) {
 				}
 			}
 		}
-		if(collision == 0) {
+		if(collision1 == 0 && collision2 == 0) {
 			timer2 = SDL_GetTicks();
 			timer_points = SDL_GetTicks();
 			if (timer2 >= timer1 + 10) {
 				r2.x -= step;
 				r3.x += step;
-				collision = CollisionCheck(r, r2);
-				collision = CollisionCheck(r, r3);
+				collision1 = CollisionCheck(r, r2);
+				collision2 = CollisionCheck(r, r3);
 				timer1 = timer2;
 			}
 			if (r2.x <= -20 && r3.x >= 650) {
